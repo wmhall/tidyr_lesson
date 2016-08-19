@@ -24,6 +24,21 @@ Example of tidy data
 --------------------
 
 ``` r
+tidyr::table1
+```
+
+    ## Source: local data frame [6 x 4]
+    ## 
+    ##       country  year  cases population
+    ##         (chr) (int)  (int)      (int)
+    ## 1 Afghanistan  1999    745   19987071
+    ## 2 Afghanistan  2000   2666   20595360
+    ## 3      Brazil  1999  37737  172006362
+    ## 4      Brazil  2000  80488  174504898
+    ## 5       China  1999 212258 1272915272
+    ## 6       China  2000 213766 1280428583
+
+``` r
 #table1 is tidy
 table1
 ```

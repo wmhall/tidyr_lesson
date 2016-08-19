@@ -6,6 +6,8 @@ output: github_document
 ```{r, include = F}
 library(tidyr)
 library(dplyr)
+
+install.packages("tidyr")
 ```
 
 ## What is tidy data?
@@ -29,6 +31,10 @@ In practical terms this largely translates into getting each variable into it's 
 ## Example of tidy data
 
 ```{r}
+tidyr::table1
+
+tidyr::table1
+
 #table1 is tidy
 table1
 ```
@@ -62,6 +68,8 @@ table2
 `gather()` lets you gather variables that are spread across multiple columns (i.e. make long/tall data frames). 
 
 ```{r}
+table1
+
 table4a
 ```
 
@@ -75,9 +83,11 @@ Conceptually, we want to gather up the two variables `1999` and `2000` into a si
 #verbose version
 gather(data = table4a, key = year, value = cases, `1999`, `2000`)
 
+
 #piped version; note the use of -country to specify columns to gather
+test <- 
 table4a %>% 
-  gather(year, cases, -country)
+  gather(.,year, cases, -country)
 
 ```
 
@@ -104,6 +114,10 @@ table2 %>%
 
 ```
 
+```{r}
+table4b
+```
+
 
 ### Challenge problem 1
 
@@ -113,11 +127,11 @@ table2 %>%
     c) Once the data is tidy, find out the overall mean for tb cases.
     d) Using the tidy and non-tidy data frames find the mean tb cases for each year. How do the two approaches (non-tidy vs. tidy) compare? 
 
-##Seperating and uniting
+##Separating and uniting
 
-###`seperate()`
+###`separate()`
 
-`seperate()` splits a column into multiple columns. 
+`separate()` splits a column into multiple columns. 
 
 ```{r}
 table3
@@ -130,6 +144,7 @@ separate(data = table3, col = rate,
 table3 %>% 
   separate(rate, c("cases", "population"))
 
+
 #convert = T makes a guess at an appropriate column type
 table3 %>% 
   separate(rate, c("cases", "population"), convert = T)
@@ -139,7 +154,7 @@ table3 %>%
 
 ###`unite()`
 
-`unite()` is the inverse of `seperate()`; it lets you combine two columns.
+`unite()` is the inverse of `separate()`; it lets you combine two columns.
 
 ```{r}
 #unite 
@@ -162,6 +177,13 @@ table5 %>%
 
 1. Take a look at `table3` and `table5`. Using either `separate()` or `unite()` make `table3` identical to `table5`. Check your work using the `identical()` function. Hint you might need to look at the help pages for either `unite()` or `separate()`, taking a close look at the sep argument.
 
+```{r}
+
+
+table3
+table5
+```
+
 
 ##Other useful tidyr functions
 
@@ -173,6 +195,9 @@ table5 %>%
 smiths
 
 smiths %>% drop_na
+
+who %>% drop_na(new_sp_m014)
+
 
 ```
 
@@ -230,7 +255,8 @@ table4b %>% gather(year, cases, -country) %>%
 mean(table4b$`1999`)
 mean(table4b$`2000`)
 
-table4b %>% summarise(mean_cases_1999 = 
+table4b %>% 
+  summarise(mean_cases_1999 = 
                         mean(`1999`), 
                       mean_cases_2000 = 
                         mean(`2000`))
