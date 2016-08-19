@@ -11,14 +11,14 @@ Data is *tidy* if it is in a table that follows these rules:
 -   Each column is a variable
 -   Each row is an observation\*
 
-In practical terms this largely translates into getting each variable into it's own column. `tidyr` helps you do this, but more broadly, `tidyr` gives you a set of functions to manipulate dataframes.
+In practical terms this largely translates into getting each variable into it's own column. `tidyr` helps you do this, but more broadly, `tidyr` gives you a set of functions to manipulate data frames.
 
 ### Why tidy data?
 
--   structuring dataframes in a consistent way will make you faster at extracting the information you are intersted in.
+-   structuring data frames in a consistent way will make you faster at extracting the information you are interested in.
 -   `dplry` and `ggplot2` and other packages in the tidyverse are designed to work with tidy data.
 
--   becoming proficient at manipulating dataframes is one of the most important r skills you can develop.
+-   becoming proficient at manipulating data frames is one of the most important r skills you can develop.
 
 Example of tidy data
 --------------------
@@ -87,11 +87,11 @@ table2
 Gathering and spreading
 -----------------------
 
-`gather()` and `spread()` are functions desinged to help you tidy your data by addressing these two common problems.
+`gather()` and `spread()` are functions designed to help you tidy your data by addressing these two common problems.
 
 ### `gather()`
 
-`gather()` lets you gather variables that are spread across multiple colunms (i.e. make long/tall dataframes).
+`gather()` lets you gather variables that are spread across multiple columns (i.e. make long/tall data frames).
 
 ``` r
 table4a
@@ -146,7 +146,7 @@ table4a %>%
 
 ### `spread()`
 
-`spread()` is the inverse of gather; it lets you spread observations that are scattered across multiple rows (i.e. make wide dataframes).
+`spread()` is the inverse of gather; it lets you spread observations that are scattered across multiple rows (i.e. make wide data frames).
 
 ``` r
 table2
@@ -169,7 +169,7 @@ table2
     ## 11       China  2000      cases     213766
     ## 12       China  2000 population 1280428583
 
-Conceptually, we want to create two new columns in our dataframe that represent the variables `cases` and `population`, and we want to fill those variables with the appropriate values from the `count` variable.
+Conceptually, we want to create two new columns in our data frame that represent the variables `cases` and `population`, and we want to fill those variables with the appropriate values from the `count` variable.
 
 ``` r
 #key = column that contains the variable names that we want to create
@@ -211,9 +211,9 @@ table2 %>%
 
 1.  In `table4b`, year is spread across two columns.
     1.  Do you need `gather()` or `spread()` to tidy this data?
-    2.  Create a tidy dataframe from `table4b`.
+    2.  Create a tidy data frame from `table4b`.
     3.  Once the data is tidy, find out the overall mean for tb cases.
-    4.  Using the tidy and non-tidy dataframes find the mean tb cases for each year. How do the two approaches (non-tidy vs. tidy) compare?
+    4.  Using the tidy and non-tidy data frames find the mean tb cases for each year. How do the two approaches (non-tidy vs. tidy) compare?
 
 Seperating and uniting
 ----------------------
@@ -359,7 +359,7 @@ table5 %>%
 
 ### Challenge problem 2
 
-1.  Take a look at `table3` and `table5`. Using either `separate()` or `unite()` make `table3` identical to `table5`. Check your work using the `identical()` fucntion. Hint you might need to look at the help pages for either `unite()` or `separate()`, taking a close look at the sep argument.
+1.  Take a look at `table3` and `table5`. Using either `separate()` or `unite()` make `table3` identical to `table5`. Check your work using the `identical()` function. Hint you might need to look at the help pages for either `unite()` or `separate()`, taking a close look at the sep argument.
 
 Other useful tidyr functions
 ----------------------------
@@ -393,7 +393,7 @@ smiths %>% drop_na
 `complete()`
 ------------
 
-`complete()` takes a dataframe and makes implicitly missing values explicitly missing.
+`complete()` takes a data frame and makes implicitly missing values explicitly missing.
 
 ``` r
 population
@@ -467,13 +467,13 @@ population_exp_missing %>%
 Other resources and what to learn next
 --------------------------------------
 
--   Hadley Wickham's excellent R for Data Science book has a number of great chapters on tidy data. I used his book to help put togther this lesson. The whole book is available for free [here](http://r4ds.had.co.nz).
+-   Hadley Wickham's excellent R for Data Science book has a number of great chapters on tidy data. I used his book to help put together this lesson. The whole book is available for free [here](http://r4ds.had.co.nz).
 
 -   Hadley Wickham's journal article on tidy data, [here](http://vita.had.co.nz/papers/tidy-data.pdf).
 
--   Check out the join functions that are part of `dplyr`. These help you combine dataframes.
+-   Check out the join functions that are part of `dplyr`. These help you combine data frames.
 
--   The `nest()` function helps you easily create dataframes that have nested lists (i.e. what Jenny talked about last week); these are very powerful when used with `purrr`.
+-   The `nest()` function helps you easily create data frames that have nested lists (i.e. what Jenny talked about last week); these are very powerful when used with `purrr`.
 
 Solutions to challenge problems
 -------------------------------
