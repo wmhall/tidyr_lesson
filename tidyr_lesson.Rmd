@@ -1,0 +1,258 @@
+---
+title: "`tidyr` lesson"
+output: github_document 
+---
+
+```{r, include = F}
+library(tidyr)
+library(dplyr)
+```
+
+## What is tidy data?
+
+A large chunk of your time working with data in `r` is going to be spent cleaning and preparing data. *Tidy* data is a standardized way of organizing data; it was proposed by Hadley Wickham and is designed to make you more effective at exploring and analyzing your data. 
+
+Data is *tidy* if it is in a table that follows these rules: 
+
+* Each column is a variable
+* Each row is an observation*
+
+In practical terms this largely translates into getting each variable into it's own column. `tidyr` helps you do this, but more broadly, `tidyr` gives you a set of functions to manipulate dataframes. 
+
+### Why tidy data?
+
+* structuring dataframes in a consistent way will make you faster at extracting the information you are intersted in.
+* `dplry` and `ggplot2` and other packages in the tidyverse are  designed to work with tidy data. 
+
+* becoming proficient at manipulating dataframes is one of the most important r skills you can develop. 
+
+## Example of tidy data
+
+```{r}
+#table1 is tidy
+table1
+```
+
+## Examples of non-tidy data
+
+Non-tidy data typically has one of two problems but it can have both.
+
+* Variables are spread across multiple columns.
+* Observations are scattered across multiple rows.
+
+### Variables spread across multiple columns
+
+```{r}
+table4a 
+```
+
+###Observations scattered across multiple rows
+
+```{r}
+table2
+```
+
+
+## Gathering and spreading
+
+`gather()` and `spread()` are functions desinged to help you tidy your data by addressing these two common problems.
+
+### `gather()`
+
+`gather()` lets you gather variables that are spread across multiple colunms (i.e. make long/tall dataframes). 
+
+```{r}
+table4a
+```
+
+Conceptually, we want to gather up the two variables `1999` and `2000` into a single variable and create a new variable, `year`, to track which year that case comes from (i.e. 1999 vs 2000).
+
+```{r}
+#key is a new variable that tracks which year a value comes from
+
+#value is a new variable that will contain all the data that we gather into a siginle column (i.e. the cases)
+
+#verbose version
+gather(data = table4a, key = year, value = cases, `1999`, `2000`)
+
+#piped version; note the use of -country to specify columns to gather
+table4a %>% 
+  gather(year, cases, -country)
+
+```
+
+### `spread()`
+
+`spread()` is the inverse of gather; it lets you spread observations that are scattered across multiple rows (i.e. make wide dataframes).  
+
+```{r}
+table2
+```
+
+Conceptually, we want to create two new columns in our dataframe that represent the variables `cases` and `population`, and we want to fill those variables with the appropriate values from the `count` variable.
+
+```{r}
+#key = column that contains the variable names that we want to create
+#value = column that contain that values to go into those variables 
+
+#verbose version
+spread(data = table2, key = type, value = count)
+
+#piped version
+table2 %>% 
+  spread(type, count)
+
+```
+
+
+### Challenge problem 1
+
+1. In `table4b`, year is spread across two columns. 
+    a) Do you need `gather()` or `spread()` to tidy this data?
+    b) Create a tidy dataframe from `table4b`.
+    c) Once the data is tidy, find out the overall mean for tb cases.
+    d) Using the tidy and non-tidy dataframes find the mean tb cases for each year. How do the two approaches (non-tidy vs. tidy) compare? 
+
+##Seperating and uniting
+
+###`seperate()`
+
+`seperate()` splits a column into multiple columns. 
+
+```{r}
+table3
+
+#verbose version
+separate(data = table3, col = rate, 
+         into = c("cases", "population"), sep = "/")
+
+#use for sepertate
+table3 %>% 
+  separate(rate, c("cases", "population"))
+
+#convert = T makes a guess at an appropriate column type
+table3 %>% 
+  separate(rate, c("cases", "population"), convert = T)
+
+
+```
+
+###`unite()`
+
+`unite()` is the inverse of `seperate()`; it lets you combine two columns.
+
+```{r}
+#unite 
+table5
+
+#verbose; note that it drops the original columns and uses _ to combine
+unite(data = table5, col = date, century, year)
+
+unite(data = table5, col = date, century, year, sep = "", remove = F)
+
+#pipe version
+
+table5 %>% 
+  unite(col = date, century, year, sep = "")
+
+
+```
+
+### Challenge problem 2
+
+1. Take a look at `table3` and `table5`. Using either `separate()` or `unite()` make `table3` identical to `table5`. Check your work using the `identical()` fucntion. Hint you might need to look at the help pages for either `unite()` or `separate()`, taking a close look at the sep argument.
+
+
+##Other useful tidyr functions
+
+##`drop_na()`
+
+`drop_na()` lets you drop rows with missing values
+
+```{r}
+smiths
+
+smiths %>% drop_na
+
+```
+
+
+##`complete()`
+
+`complete()` takes a dataframe and makes implicitly missing values explicitly missing. 
+
+```{r}
+population
+
+population %>% 
+  filter(country == "South Sudan")
+
+population_exp_missing <- 
+complete(population, country, year)
+
+population_exp_missing %>% 
+  filter(country == "South Sudan")
+
+```
+
+
+### Challenge problem 3 
+
+1. `drop_na()` removes rows that have missing values on any column, but it can be used in a more focused way (i.e. you can drop rows that have missing data specific columns). Using the `who` dataset (from `tidyr`) make a version of that dataset that has no missing values on the columns `new_sp_m014` and `new_sp_m1524`.
+
+## Other resources and what to learn next
+
+* Hadley Wickham's excellent R for Data Science book has a number of great chapters on tidy data. I used his book to help put togther this lesson. The whole book is available for free [here](http://r4ds.had.co.nz). 
+
+* Hadley Wickham's journal article on tidy data, [here](http://vita.had.co.nz/papers/tidy-data.pdf). 
+
+* Check out the join functions that are part of `dplyr`. These help you combine dataframes. 
+
+* The `nest()` function helps you easily create dataframes that have nested lists (i.e. what Jenny talked about last week); these are very powerful when used with `purrr`.
+
+##Solutions to challenge problems
+
+###Challenge problem 1
+
+```{r}
+#abc)
+
+table4b %>% gather(year, cases, -country) %>% 
+  summarise(mean_cases = mean(cases))
+
+#d)
+#tidy
+table4b %>% gather(year, cases, -country) %>% 
+  group_by(year) %>% 
+  summarise(mean_cases = mean(cases))
+
+#non-tidy
+mean(table4b$`1999`)
+mean(table4b$`2000`)
+
+table4b %>% summarise(mean_cases_1999 = 
+                        mean(`1999`), 
+                      mean_cases_2000 = 
+                        mean(`2000`))
+
+
+```
+
+###Challenge problem 2
+
+```{r}
+table3
+table5
+
+new_table3 <- 
+table3 %>% 
+  separate(year, into = c("century", "year"), sep = 2)
+
+identical(new_table3, table5)
+```
+
+###Challenge problem 3
+
+```{r}
+who %>% drop_na(new_sp_m014, new_sp_m1524) 
+```

@@ -1,0 +1,10 @@
+{
+    "dialog-state" : {
+        "caseSensitive" : false,
+        "filePatterns" : [
+        ],
+        "path" : "~/SpiderOak Hive/Class/study_group/tidyr_lesson",
+        "query" : "tidyr::",
+        "regex" : false
+    }
+}

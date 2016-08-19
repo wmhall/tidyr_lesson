@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"notes\"\nauthor: \"William Hall\"\ndate: \"August 18, 2016\"\noutput: html_document\n---\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = TRUE)\n```\n\n## Notes\n\n* a variable measures some underlying attribute\n* contains the values measured on some attribute at a give level, e.g. in country X in 1999. \n\n* there are four variables\n  * country, year, cases, and population\n\n* an observation is a country in a year\n\n* table 1: each variable has it's own column and each observation has it's own row.\n\n* questions to ask of a dataframe:\n    * does each variable have it's own column\n    * does each observation have it's own row\n    \n* table4a \n    * there are 3 variables: country, year, and cases\n    * does each variable have it's own column: no\n        * cases are spread across two columns\n    * does each observation have it's own row: no\n        a row is representing a country across two years. \n        \n* table2\n    * does each variable have it's own column: no\n    * does each observation have it's own row: no\n      * each observation is spread across two rows because population and cases are measured in the same year; thus you have data from the same year for the same country in different rows. \n\n* another advantage of using a tidy approach is that if you store a variable in a column you can easily apply vectorized opertations to that column.  \n\n* gather makes wide datasets taller\n* spread makes tall datasets wider\n\n\nnotes about spread\n* fill argument = how mising values are treated. le ts you specify a missing value\n* drop argument = if the key is factor and has levels not in the data then this arg determines how the levels are treated when spread. \n  * drop = F means that the missing factor levels will be spread and included as a var.\n\n```{r}\n#fill example\ntable2$count[2] <- NA\ntable2 %>% \n  spread(key = type, value = count, fill = \"ARGGH\")\n\n \n```\n\n\n\n\nnotes about seperate\n* extra = what to do if there are more than one seperators\n  * warn = gives you warning and still returns a value that is split at the first instance of sep\n  * drop = drops the extra peice and gives no warning, still just splits at the first instance of sep\n  * splits at the first instance and ingores the extra instance\n\n* fill = what happens if there are not enough pieces\n  * warn = still splits at the first instance and returns NA where there are no enough peices\n  * right = fill with missing values on the right, i.e. if you have three variables and only two peices, vars 1 and 2 will get the peices \n  * left = fill with missing values on the left, i.e. if you have three variables and only two peices, vars 2 and 3 will get the peices\n  \n  \n```{r}\n#extra example\ndata_frame(test = \"hello_wor_ld\") %>% \n  separate(test, into = c(\"first\", \"second\"), extra = \"merge\")\n\n#fill exmaple\ndata_frame(test = \"hello_world\") %>% \n  separate(test, into = c(\"first\", \"second\", \"third\"), fill = \"left\")\n\n#setting remove = F retains the column you are splitting up\n\n```\n",
+    "created" : 1471557700917.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "181324070",
+    "id" : "A973FF0C",
+    "lastKnownWriteTime" : 1471569301,
+    "last_content_update" : 1471569688175,
+    "path" : "~/SpiderOak Hive/Class/study_group/tidyr_lesson/notes.Rmd",
+    "project_path" : "notes.Rmd",
+    "properties" : {
+        "last_setup_crc32" : "FD949F18bb338d19",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
