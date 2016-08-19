@@ -1,2 +1,2 @@
 # tidyr_lesson
-tdiyr lesson for UBC study group
+tidyr lesson for UBC study group
